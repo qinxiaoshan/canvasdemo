@@ -91,8 +91,7 @@
       window.onresize = () => {
         return (() => {
             window.screenWidth = document.body.clientWidth
-            that.screenWidth = window.screenWidth
-            alert("aaa");
+            that.canWidth = window.screenWidth
         })()
       }
     },
