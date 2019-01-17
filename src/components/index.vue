@@ -4,7 +4,7 @@
         <el-button type="primary" @click="clear" size="medium">清除</el-button>
         <el-button type="warning" @click="save" size="medium">保存</el-button>
     </el-row>
-    <canvas id="canvas" height="240px" :width="screenWidth" ref="mycanvas" class="mycanvas">Canvas画板</canvas>
+    <canvas id="canvas" :height="canHeight" :width="canWidth" ref="mycanvas" class="mycanvas">Canvas画板</canvas>
     <img v-bind:src="url" alt="">
   </div>
 </template>
@@ -27,7 +27,6 @@
       }
       init(btn) {
           var that = this; 
-          
           this.canvas.addEventListener('touchstart', function(event) {
               document.addEventListener('touchstart', preHandler, false); 
               that.drawBegin(event)
@@ -67,10 +66,9 @@
           document.removeEventListener('touchstart', preHandler, false); 
           document.removeEventListener('touchend', preHandler, false);
           document.removeEventListener('touchmove', preHandler, false);
-          //canvas.ontouchmove = canvas.ontouchend = null
       }
       clear(btn) {
-          this.cxt.clearRect(0, 0, 300, 600)
+          this.cxt.clearRect(0, 0, this.canvas.width, this.canvas.height)
       }
       save(){
          return canvas.toDataURL("image/png")
@@ -80,7 +78,8 @@
   export default {
     data () {
       return {
-        screenWidth: document.body.clientWidth,
+        canWidth: document.body.clientWidth,
+        canHeight: 240,
         val:true,
         url:""
       }
@@ -116,14 +115,14 @@
     watch: {
       screenWidth (val) {
         if (!this.timer) {
-            this.screenWidth = val
-            this.timer = true
-            let that = this
-            setTimeout(function () {
-                console.log(that.screenWidth)
-                that.init()
-                that.timer = false
-            }, 400)
+          this.screenWidth = val
+          this.timer = true
+          let that = this
+          setTimeout(function () {
+              console.log(that.screenWidth)
+              Draw.init()
+              that.timer = false
+          }, 400)
         }
       }
     }
