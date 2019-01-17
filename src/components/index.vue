@@ -92,6 +92,7 @@
         return (() => {
             window.screenWidth = document.body.clientWidth
             that.screenWidth = window.screenWidth
+            alert("aaa");
         })()
       }
     },
@@ -120,7 +121,6 @@
           let that = this
           setTimeout(function () {
               console.log(that.screenWidth)
-              Draw.init()
               that.timer = false
           }, 400)
         }
