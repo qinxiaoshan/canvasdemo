@@ -1,5 +1,5 @@
 <template>
-  <div class="drawname">
+  <div class="fullscreen">
     <el-row class="buttongroup">
         <el-button type="primary" @click="clear" size="medium">清除</el-button>
         <el-button type="warning" @click="save" size="medium">保存</el-button>
