@@ -4,7 +4,7 @@
         <el-button type="primary" @click="clear" size="medium">清除</el-button>
         <el-button type="warning" @click="save" size="medium">保存</el-button>
     </el-row>
-    <canvas id="canvas" height="240px" ref="mycanvas" class="mycanvas">Canvas画板</canvas>
+    <canvas id="canvas" height="240px" :width="screenWidth" ref="mycanvas" class="mycanvas">Canvas画板</canvas>
     <img v-bind:src="url" alt="">
   </div>
 </template>
@@ -80,14 +80,21 @@
   export default {
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App',
+        screenWidth: document.body.clientWidth,
         val:true,
         url:""
       }
     },
     mounted() {
-        draw=new Draw('canvas');
-        draw.init();
+      draw=new Draw('canvas');
+      draw.init();
+      const that = this;
+      window.onresize = () => {
+        return (() => {
+            window.screenWidth = document.body.clientWidth
+            that.screenWidth = window.screenWidth
+        })()
+      }
     },
     methods:{
       clear:function(){
@@ -104,6 +111,20 @@
       canvassize:function(){
         var wW,wH;
 
+      }
+    },
+    watch: {
+      screenWidth (val) {
+        if (!this.timer) {
+            this.screenWidth = val
+            this.timer = true
+            let that = this
+            setTimeout(function () {
+                console.log(that.screenWidth)
+                that.init()
+                that.timer = false
+            }, 400)
+        }
       }
     }
   } 
